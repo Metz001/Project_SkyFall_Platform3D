@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,17 +10,28 @@ public class GameManager : MonoBehaviour
      * siempre que hay cabio se lo comunicará al Game Manager con un método que le permita cambiar su vida en el UI
      */
 
-    private PlayerController player;
-    private Transform checkPoint;
-    private float totalScore;
+    public PlayerController player;
 
+
+    private float totalScore;   
+
+    public Vector3 lastCheckpointPos;
 
     public static GameManager instance;
 
 
+
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(instance);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         
     }
 
@@ -28,10 +40,31 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         player = GameObject.FindObjectOfType<PlayerController>();
-        totalScore = 0;
-        CheckPoint();
 
+        totalScore = 0;
+        //CheckPoint();
+        
     }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.C))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Debug.Log("C is pressed");
+        }
+        if (Input.GetKey(KeyCode.F))
+        {
+            player.gameObject.transform.position = lastCheckpointPos;
+            Debug.Log("F is pressed");
+        }
+        if (Input.GetKey(KeyCode.G))
+        {
+            BackToCheckpoit();
+        }
+    }
+
+
 
 
     public void Score(float score)
@@ -39,25 +72,18 @@ public class GameManager : MonoBehaviour
         totalScore += score;
         Debug.Log("Game manager Socre " + totalScore);
     }
-    public void lifeChange(int hearth)
+    public void hearthChange(int hearth)
     {
+        //player.hearthCount += hearth;
         player.hearthCount += hearth;
         Debug.Log("Game manager hearth " + player.hearthCount);
     }
 
     public void BackToCheckpoit()
     {
-        player.gameObject.transform = checkPoint;      
-    }
-
-    public void CheckPoint()
-    {
-        Debug.Log("Posicion de check point " + checkPoint);
-        checkPoint = player.gameObject.transform;
+        player.gameObject.transform.position = lastCheckpointPos;
     }
     
-
-
     public enum GameState
     {
         Menu,

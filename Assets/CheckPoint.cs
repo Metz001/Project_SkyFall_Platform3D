@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeathZone: MonoBehaviour
+public class CheckPoint : MonoBehaviour
 {
-     
-
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.instance.BackToCheckpoit();
-            GameManager.instance.Score(-10);
-            
+            GameManager.instance.lastCheckpointPos = transform.position;
+            Debug.Log("Checckpoint reach");
+
         }
     }
 }

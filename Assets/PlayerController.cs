@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,7 +9,8 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
 
     public int hearthCount;
-    //public Rigidbody body;
+    public int  life;
+
     private CharacterController character;
 
     private Vector3 moveDirecction;
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
     {
        // body = GetComponent<Rigidbody>();
        character = GetComponent<CharacterController>();
+       transform.position = GameManager.instance.lastCheckpointPos;
     }
 
     // Update is called once per frame
@@ -33,6 +36,7 @@ public class PlayerController : MonoBehaviour
         moveDirecction = new Vector3(Input.GetAxis("Horizontal") * speed, moveDirecction.y, Input.GetAxis("Vertical") * speed);
         character.Move(moveDirecction*Time.deltaTime);
 
+        
 
         if (Input.GetButtonDown("Jump"))
         {

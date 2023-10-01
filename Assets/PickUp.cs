@@ -38,7 +38,7 @@ public class PickUp : MonoBehaviour
         }
         else if (other.CompareTag("Player"))
         {
-            GameManager.instance.lifeChange(1);
+            GameManager.instance.hearthChange(1);
             Destroy(gameObject);
         }
     }
