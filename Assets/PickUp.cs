@@ -17,13 +17,17 @@ public class PickUp : MonoBehaviour
     private void Start()
     {
         
-        if(scoreValeu == 0 && type == PickUpType.star)
+        if(type == PickUpType.star)
         {
-            scoreValeu = 1;
+            scoreValeu = 10;
+        }
+        else if (type == PickUpType.hearth)
+        {
+            scoreValeu = 0;
         }
         else
         {
-            scoreValeu = 0;
+            type = PickUpType.reco;
         }
 
     }
@@ -33,12 +37,14 @@ public class PickUp : MonoBehaviour
         if (other.CompareTag("Player") && type == PickUpType.star)
         {
             GameManager.instance.Score(scoreValeu);
-            //Debug.Log("score tag");
+            //Debug.Log("score tag");         
+            GameManager.instance.starsUI[GameManager.instance.starCount].SetActive(true);
+            GameManager.instance.starCount++;
             Destroy(gameObject);
         }
         else if (other.CompareTag("Player"))
         {
-            GameManager.instance.hearthChange(1);
+            GameManager.instance.helthChange(1);
             Destroy(gameObject);
         }
     }
@@ -47,6 +53,7 @@ public class PickUp : MonoBehaviour
     public enum PickUpType
     {
         star,
+        reco,
         hearth,
     }
 }

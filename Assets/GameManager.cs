@@ -12,13 +12,18 @@ public class GameManager : MonoBehaviour
 
     public PlayerController player;
 
+    public GameObject[] starsUI = new GameObject[9];
+    public GameObject[] hearthsUI = new GameObject[2];
+    private float totalScore;
 
-    private float totalScore;   
+    public int hearthCount;
+    public int starCount;
 
     public Vector3 lastCheckpointPos;
 
     public static GameManager instance;
 
+    
 
 
     private void Awake()
@@ -32,58 +37,77 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+       
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindObjectOfType<PlayerController>();
-
         totalScore = 0;
+        player = GameObject.FindObjectOfType<PlayerController>();
+        /*
+        for (int i = 0; i > hearthsUI.Length; i++) {
+
+            hearthsUI[i] = GameObject.FindGameObjectsWithTag("hearth")[i]; 
+
+        }*/
+        for (int i = 0; i < starsUI.Length; i++)
+        {
+            starsUI[i].gameObject.SetActive(false);
+        }
+
+        
+        for (int i = 0;i < hearthsUI.Length; i++)
+        {
+            hearthCount = i;
+        } 
+        
         //CheckPoint();
         
     }
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.C))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            Debug.Log("C is pressed");
-        }
-        if (Input.GetKey(KeyCode.F))
-        {
-            player.gameObject.transform.position = lastCheckpointPos;
-            Debug.Log("F is pressed");
-        }
+        
         if (Input.GetKey(KeyCode.G))
         {
             BackToCheckpoit();
         }
     }
 
-
-
-
     public void Score(float score)
     {
         totalScore += score;
+
         Debug.Log("Game manager Socre " + totalScore);
     }
-    public void hearthChange(int hearth)
+    public void HearthChange()
+    {
+
+    }
+    public void helthChange(int health)
     {
         //player.hearthCount += hearth;
-        player.hearthCount += hearth;
-        Debug.Log("Game manager hearth " + player.hearthCount);
+        player.health += health;
+        Debug.Log("Game manager hearth " + player.health);
     }
 
     public void BackToCheckpoit()
     {
         player.gameObject.transform.position = lastCheckpointPos;
+        Debug.Log(lastCheckpointPos);
     }
-    
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+           BackToCheckpoit();
+           Score(-1);
+        }
+    }
+
     public enum GameState
     {
         Menu,
