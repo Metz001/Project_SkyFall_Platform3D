@@ -61,10 +61,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b6b270bde8d812b429ecc117a0241821, type: 3}
-      insertIndex: -1
+      insertIndex: 1
       addedObject: {fileID: 5791450300835670123}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b6b270bde8d812b429ecc117a0241821, type: 3}
-      insertIndex: -1
+      insertIndex: 2
       addedObject: {fileID: 8013666451829834277}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b6b270bde8d812b429ecc117a0241821, type: 3}
       insertIndex: -1
@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreValeu: 0
-  type: 1
+  type: 2
 --- !u!95 &8013666451829834277
 Animator:
   serializedVersion: 5

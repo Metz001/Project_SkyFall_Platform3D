@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,18 +16,18 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] starsUI = new GameObject[9];
     public GameObject[] hearthsUI = new GameObject[2];
-    private float totalScore;
+    public float totalScore;
 
-    public int hearthCount;
-    public int starCount;
+    public int hearthCount; //Conteo de corazones
+    public int starCount; //Conteo de estrellas
 
-    public Vector3 lastCheckpointPos;
+    public Vector3 lastCheckpointPos; //almacena posicion de checkpoint
 
-    public static GameManager instance;
+    public static GameManager instance; //Singleton instacnia
 
     
-
-
+    //Singleton
+    
     private void Awake()
     {
         if (instance == null)
@@ -37,21 +39,17 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        print(instance);
        
     }
-
+    
 
     // Start is called before the first frame update
     void Start()
     {
         totalScore = 0;
-        player = GameObject.FindObjectOfType<PlayerController>();
-        /*
-        for (int i = 0; i > hearthsUI.Length; i++) {
-
-            hearthsUI[i] = GameObject.FindGameObjectsWithTag("hearth")[i]; 
-
-        }*/
+        player = FindObjectOfType<PlayerController>();
+       
         for (int i = 0; i < starsUI.Length; i++)
         {
             starsUI[i].gameObject.SetActive(false);
@@ -69,10 +67,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        
-        if (Input.GetKey(KeyCode.G))
+              
+        //Si el jugador cae, llama chekpoint
+        if(player.gameObject.transform.position.y < -50f)
         {
             BackToCheckpoit();
+            HearthChange(-1);
         }
     }
 
@@ -82,23 +82,45 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Game manager Socre " + totalScore);
     }
-    public void HearthChange()
-    {
 
-    }
-    public void helthChange(int health)
+    //Cambio de CORAZONES
+    public void HearthChange(int hearth)
     {
-        //player.hearthCount += hearth;
-        player.health += health;
+        hearthCount+=hearth;
+        Debug.Log("quedan " + hearthCount + " corazones");
+        //de no quedar  corazones, llama Game Over
+        if (hearthCount < 0){
+            GameOver();
+        }
+    }   
+
+    ////Cambio de VIDA
+    public void HealthChange(int health)
+    {
+        
+        player.health += health; //cambio
         Debug.Log("Game manager hearth " + player.health);
+        //de no quedar  vida, resta un corazón
+        if (health < 0) {
+            HearthChange(-1);
+        }
+    }
+
+    //FIN DEL JUEGO
+    private void GameOver()
+    {
+        throw new NotImplementedException();
     }
 
     public void BackToCheckpoit()
     {
-        player.gameObject.transform.position = lastCheckpointPos;
-        Debug.Log(lastCheckpointPos);
+        //Devuelve al jugadro al ultimo checkpoint
+        instance.player.gameObject.transform.position = instance.lastCheckpointPos;
+        Debug.Log("Game Manager BTC "+ instance.lastCheckpointPos);
+        
     }
 
+    /*
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -106,8 +128,8 @@ public class GameManager : MonoBehaviour
            BackToCheckpoit();
            Score(-1);
         }
-    }
-
+    }*/
+    
     public enum GameState
     {
         Menu,

@@ -44,7 +44,7 @@ public class PickUp : MonoBehaviour
         }
         else if (other.CompareTag("Player"))
         {
-            GameManager.instance.helthChange(1);
+            GameManager.instance.HearthChange(+1);
             Destroy(gameObject);
         }
     }
