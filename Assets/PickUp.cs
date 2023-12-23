@@ -44,8 +44,12 @@ public class PickUp : MonoBehaviour
         }
         else if (other.CompareTag("Player"))
         {
-            GameManager.instance.HearthChange(+1);
-            Destroy(gameObject);
+            if (GameManager.instance.hearthCount < GameManager.instance.hearthsUI.Length)
+            {
+                GameManager.instance.HearthChange(+1);
+                Destroy(gameObject);
+            }
+            
         }
     }
 

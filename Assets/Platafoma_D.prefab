@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5874785957406816979}
   m_Layer: 0
   m_Name: Platafoma_D
-  m_TagString: Untagged
+  m_TagString: floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +36,7 @@ Transform:
   - {fileID: 7868266891960588406}
   - {fileID: 8453309236776787187}
   - {fileID: 3040845990724649946}
-  - {fileID: 8481415877422072941}
+  - {fileID: 8232214740204823424}
   - {fileID: 6939340715301641696}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -828,7 +828,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1532582661635022537}
   m_SourcePrefab: {fileID: 100100000, guid: fa2aa93a1cc8e0d41a54e919aef6678a, type: 3}
---- !u!1 &8481415877422072940 stripped
+--- !u!4 &8232214740204823424 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fa2aa93a1cc8e0d41a54e919aef6678a, type: 3}
+  m_PrefabInstance: {fileID: 8481415877422072939}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8752010423614896442 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fa2aa93a1cc8e0d41a54e919aef6678a, type: 3}
   m_PrefabInstance: {fileID: 8481415877422072939}
@@ -839,7 +844,7 @@ BoxCollider:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8481415877422072940}
+  m_GameObject: {fileID: 8752010423614896442}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -854,8 +859,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!4 &8481415877422072941 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fa2aa93a1cc8e0d41a54e919aef6678a, type: 3}
-  m_PrefabInstance: {fileID: 8481415877422072939}
-  m_PrefabAsset: {fileID: 0}

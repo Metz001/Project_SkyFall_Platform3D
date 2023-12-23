@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,9 +27,13 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance; //Singleton instacnia
 
-    
+    //El machetazo
+    private bool allowHearthChange = true;
+    private System.Threading.Timer hearthChangeTimer;
+
+
     //Singleton
-    
+
     private void Awake()
     {
         if (instance == null)
@@ -58,18 +64,18 @@ public class GameManager : MonoBehaviour
         
         for (int i = 0;i < hearthsUI.Length; i++)
         {
-            hearthCount = i;
-        } 
-        
-        //CheckPoint();
-        
+            hearthCount++;
+            hearthsUI[i].SetActive(true);
+        }
+
+        hearthChangeTimer = new System.Threading.Timer(TemporizadorCallback, null, Timeout.Infinite, Timeout.Infinite);
     }
 
     private void Update()
     {
               
         //Si el jugador cae, llama chekpoint
-        if(player.gameObject.transform.position.y < -50f)
+        if(player.gameObject.transform.position.y < -50)
         {
             BackToCheckpoit();
             HearthChange(-1);
@@ -83,11 +89,31 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game manager Socre " + totalScore);
     }
 
-    //Cambio de CORAZONES
+    private void TemporizadorCallback(object state)
+    {
+        // Habilita la posibilidad de llamar a HearthChange después de que ha pasado 1 segundo
+        allowHearthChange = true;
+    }
+    //Cambio de Conteo CORAZONES
     public void HearthChange(int hearth)
     {
-        hearthCount+=hearth;
+        //Solución machetera
+        if (!allowHearthChange)
+        {
+            Debug.Log("Espera 1 segundo entre llamadas a HearthChange.");
+            return;
+        }
+
+        // Desactiva el temporizador y establece el retraso de 1 segundo
+        hearthChangeTimer.Change(1000, Timeout.Infinite);
+
+        allowHearthChange = false;
+        //fin solución
+        hearthCount += hearth;
+        HearthUiCahnge(hearthCount);
         Debug.Log("quedan " + hearthCount + " corazones");
+     
+
         //de no quedar  corazones, llama Game Over
         if (hearthCount < 0){
             GameOver();
@@ -103,6 +129,41 @@ public class GameManager : MonoBehaviour
         //de no quedar  vida, resta un corazón
         if (health < 0) {
             HearthChange(-1);
+        }
+    }
+
+    //Ui CORAZONES
+    private void HearthUiCahnge(int hearthCountUi)
+    {
+        switch (hearthCountUi)
+        {
+            case 0:
+                hearthsUI[0].SetActive(false);
+                hearthsUI[1].SetActive(false);
+                hearthsUI[2].SetActive(false);            
+                break;
+
+            case 1:
+                hearthsUI[0].SetActive(false);
+                hearthsUI[1].SetActive(false);
+                hearthsUI[2].SetActive(true);
+                break;
+
+            case 2:
+                hearthsUI[0].SetActive(false);
+                hearthsUI[1].SetActive(true);
+                hearthsUI[2].SetActive(true);
+                break;
+
+            case 3:
+                hearthsUI[0].SetActive(true);
+                hearthsUI[1].SetActive(true);
+                hearthsUI[2].SetActive(true);
+                break;
+
+            default:
+                Console.WriteLine("El valor no coincide con ningún caso");
+                break;
         }
     }
 
